@@ -58,6 +58,3 @@ def largestSegment(radius, segments):
 
     return str(round(possible_ans, 5))
     # Write your code here
-
-
-if __name__ == '__main__':
