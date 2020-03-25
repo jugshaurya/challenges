@@ -23,9 +23,14 @@ def alpha(n, arr):
     return maxi_index
 
 
-t = int(input())
-while(t):
-    n = int(input())
-    arr = [int(x) for x in input().split()]
-    print(alpha(n, arr))
-    t -= 1
+def main():
+
+    t = int(input())
+    while(t):
+        n = int(input())
+        arr = [int(x) for x in input().split()]
+        print(alpha(n, arr))
+        t -= 1
+
+
+main()
