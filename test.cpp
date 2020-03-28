@@ -34,11 +34,10 @@ void fastIO(){
 	#endif
 }
 
-
 int32_t main(){
 	fastIO();
 	/** code here */
 
-
+	
 	return 0;
 }
