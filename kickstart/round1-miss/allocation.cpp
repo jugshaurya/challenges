@@ -3,7 +3,6 @@
 using namespace __gnu_pbds;
 using namespace std;
 
-#define endl            "\n"
 #define ff              first
 #define ss              second
 #define int 			long long
@@ -22,6 +21,7 @@ using namespace std;
 #define mk(arr,n,type)	type *arr=new type[n];
 #define w(x)            int x; cin>>x; while(x--)
 #define pw(b,p)         pow(b,p) + 0.1
+#define endl			"\n"
 mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
@@ -35,56 +35,43 @@ void fastIO(){
 	#endif
 }
 
-bool doit(int k, int d0, int d1){
-	int firstTwo = (d0+d1)%3;
-	if(k==2){
-		return firstTwo == 0;
-	}
-
-	int a = d0;
-	int b = d1;
-	int c = a+b;
-	int x = 2;
-	int last_before_2468box = c;
-	while(c!=2){
-		x += 1;
-		a = b;
-		b = c;
-		last_before_2468box += c;
-		if(c==5) return false;
-		c = (2*b)%10;
-	}
-
-	int initial_type = last_before_2468box%3 ;
-	int which_repeted_box_of_2486 = ((k-x-1)/4)3%;
-	int last_subset_length = k -x - 4 * ((k-x)/4) ;
-
-
-	int sum_type = (2*which_repeted_box_of_2486+2+initial_type)%3; // 3n + sum_type 
-	cout<<firstTwo<<last_before_2468box%3<<x<<which_repeted_box_of_2486<<(sum_type%3)<<last_subset_length;
-	
-	if(sum_type==0){
-		if(last_subset_length==0 || last_subset_length==3)return true;
-		else return false;
-
-	}else if(sum_type==1){
-		if(last_subset_length==2)return true;
-		return false;
-	}else{
-		if(last_subset_length==1) return true;
-		return false;
-	}
-}
-
 int32_t main(){
 	fastIO();
 	/** code here */
-	w(t){
-		int k, d0, d1;
-		cin >> k >> d0 >> d1;
+	int t;
+    cin>>t;
+    
+    int tc = t;
+    while (t--)
+    {
 
-		if(doit(k,d0,d1)) cout<<"YES"<<endl;
-		else cout<<"NO"<<endl;
-	}
+        int n;
+        cin >> n;
+        int b;
+        cin >> b;
+        int *arr = new int[n];
+        for (int i = 0; i < n; ++i)
+        {
+            /* code */
+            cin >> arr[i];
+        }
+
+        sort(arr, arr + n);
+
+        for (int i = 1; i < n; i++)
+        {
+            arr[i] = arr[i] + arr[i - 1];
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (arr[i] <= b)
+            {
+            	ans++;
+            }
+        }
+        cout<<"Case #"<<tc-t<<": "<<ans<<endl;
+    }
 	return 0;
 }
