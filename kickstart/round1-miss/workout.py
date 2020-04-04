@@ -1,5 +1,5 @@
 
-# cook your dish here
+# # cook your dish here
 from heapq import heapify, heappop, heappush
 
 t = int(input())
@@ -8,13 +8,15 @@ while(t):
     n, k = [int(x) for x in input().split()]
     arr = [int(x) for x in input().split()]
     d = {}
+
     for i in range(1, n):
         diff = arr[i-1] - arr[i]
         if(diff in d):
             d[diff].append((arr[i], arr[i-1]))
         else:
             d[diff] = [(arr[i], arr[i-1])]
-
+    # print(d)
+    
     heap = list(d.keys())
     heapify(heap)
     session = 0
@@ -28,7 +30,7 @@ while(t):
         else:
             b, a = d[max_value].pop()
 
-        mid = (b+a)//2
+        mid = (b+a+1) //2
         diff_left = (a-mid)
         diff_right = (mid-b)
 
@@ -46,6 +48,5 @@ while(t):
             d[diff_right].append((b, mid))
         else:
             d[diff_right] = [(b, mid)]
-        
     t -= 1
-    print(f"case #{tc-t}: {-heap[0]}")
+    print("case #{0}: {1}".format(tc-t,-heap[0]))
