@@ -43,77 +43,47 @@ void fastIO(){
 	freopen("output.txt", "w", stderr);
 	#endif
 }
-
-
-const int N = 1e5;
-int primes[N];
-
-void SieveOfEratosthenes() { 
-    bool prime[N]; 
-    for (int i = 2; i < N; ++i){
-    	prime[i]  = true;
-	} 
-    for (int p=2; p<N; p++) { 
-        if (prime[p]) {
-            for (int i=p*p; i<N; i += p) 
-                prime[i] = false; 
-        } 
-    } 
-
-    int j=0;
-    for (int i = 2; i < N; ++i){
-    	if(prime[i]){
-    		primes[j++] = i;
-    	}
-    }
-    
-}
-
-int factors_count(int n){
-	int count = 0;
-	for (int i = 0; i*i < N; ++i){
-		int p = primes[i];
-		if(n>1){
-			while(true){
-				if(n%p==0){
-					n = n/p;
-					// cout<<p<<" ";
-					count +=1;
-				}else{
-					break;
-				}
-
+const int N = 1e6 + 1;
+int done[N]; // we need from [1 to 1e6]
+int32_t main(){
+	fastIO();
+	w(t){
+		int n;
+		cin>>n;
+		cout<<n/2<<endl;
+		memset(done, 0, sizeof(done));
+		vector<vi> vv;
+		for (int i = 2; i <= n; i+=2){
+			vi v;
+			if(i==2){
+				done[1] = 1;
+				v.pb(1);
 			}
-		}else{
-			break;
+			done[i] = 1;
+			v.pb(i);
+			vv.pb(v);	
+		}
+
+		for (int i = 3; i <= n; ++i){
+			int idx = 0;
+			for (int j = i; j <= n; j+=i) {
+				if(!done[j]) {
+					vv[idx++].pb(j);
+
+					done[j] = 1;
+				}
+			}
+		}
+
+		vector<vi>::iterator itr = vv.begin();
+		for (; itr != vv.end(); ++itr){
+			cout<<itr->size()<<" ";
+			vi::iterator itr2 = itr->begin();
+			for (; itr2!= itr->end();itr2++){
+				cout<<*itr2<<" ";
+			}
+			cout<<endl;
 		}
 	}
-
-	return count;
-}	
-
-int32_t main() {
-	fastIO();
-	/** code here */
-	SieveOfEratosthenes();
-	w(t){
-		// algo 
-		// find number of factors of X if that is less than K 
-		// return 0 else 1
-		int x,k; cin>>x>>k;
-		if(k==1){
-			if(x>=2){
-				cout<<1<<endl;
-			}else{
-				cout<<0<<endl;
-			}
-			continue;
-		}
-		int number_of_factors = factors_count(x);
-		if(number_of_factors < k )
-			cout<<0<<endl;
-		else
-			cout<<1<<endl;
-	}	
 	return 0;
 }
