@@ -40,55 +40,18 @@ void fastIO(){
 	#ifndef ONLINE_JUDGE	
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
-	freopen("output.txt", "w", stderr);
 	#endif
 }
-const int N = 1e6 + 1;
-int done[N]; // we need from [1 to 1e6]
+
 int32_t main(){
 	fastIO();
+	/** code here */
 	w(t){
 		int n;
 		cin>>n;
-		if(n==1){
-			cout<<n<<endl;
-			cout<<1<<endl;
-			continue;
-		}
-		cout<<n/2<<endl;
-		memset(done, 0, sizeof(done));
-		vector<vi> vv;
-		for (int i = 2; i <= n; i+=2){
-			vi v;
-			if(i==2){
-				done[1] = 1;
-				v.pb(1);
-			}
-			done[i] = 1;
-			v.pb(i);
-			vv.pb(v);	
-		}
 
-		for (int i = 3; i <= n; ++i){
-			int idx = 0;
-			for (int j = i; j <= n; j+=i) {
-				if(!done[j]) {
-					vv[idx].pb(j);
-					done[j] = 1;
-				}
-				idx++;
-			}
-		}
 
-		vector<vi>::iterator itr = vv.begin();
-		for (; itr != vv.end(); ++itr){
-			// cout<<itr->size()<<" ";
-			vi::iterator itr2 = itr->begin();
-			for (; itr2!= itr->end();itr2++){
-				cout<<*itr2<<" ";
-			}
-			cout<<endl;
-		}
+		
 	}
 	return 0;
 }

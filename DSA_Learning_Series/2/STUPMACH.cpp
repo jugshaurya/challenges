@@ -22,6 +22,7 @@ using namespace std;
 #define w(t)            int t; cin>>t; while(t--)
 #define pw(b,p)         pow(b,p) + 0.1
 #define endl			"\n"
+#define piii			pair<int,pii>
 mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
@@ -40,55 +41,47 @@ void fastIO(){
 	#ifndef ONLINE_JUDGE	
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
-	freopen("output.txt", "w", stderr);
 	#endif
 }
 const int N = 1e6 + 1;
-int done[N]; // we need from [1 to 1e6]
+int arr[N];
+
+piii findMinEle_focc_locc(arr,n){
+
+	piii t;
+	int f_occ = 0;
+	int l_occ = -1;
+	int minEle = 1e9;
+	for (int i = 0; i < n; ++i){
+		if(arr[i]< minEle){
+			minEle = arr[i];
+			f_occ = i;
+		}
+		if(arr[i]== minEle){
+			l_occ = i;
+		}
+	}
+
+	return t(minEle, mp(f_occ, l_occ));
+} 
+
 int32_t main(){
 	fastIO();
+	/** code here */
 	w(t){
-		int n;
-		cin>>n;
-		if(n==1){
-			cout<<n<<endl;
-			cout<<1<<endl;
-			continue;
-		}
-		cout<<n/2<<endl;
-		memset(done, 0, sizeof(done));
-		vector<vi> vv;
-		for (int i = 2; i <= n; i+=2){
-			vi v;
-			if(i==2){
-				done[1] = 1;
-				v.pb(1);
-			}
-			done[i] = 1;
-			v.pb(i);
-			vv.pb(v);	
+		int n;cin>>n;
+		for (int i = 0; i < n; ++i){
+			/* code */
+			cin>>arr[i];
 		}
 
-		for (int i = 3; i <= n; ++i){
-			int idx = 0;
-			for (int j = i; j <= n; j+=i) {
-				if(!done[j]) {
-					vv[idx].pb(j);
-					done[j] = 1;
-				}
-				idx++;
-			}
-		}
+		int total_tokens = 0;
+		piii t = findMinEle_focc_locc(arr,n);
+		int minEle = t->first ;
+		int f_occ = t->second->first ;
+		int l_occ = t->second->second ;
+		cout<<minEle<<f_occ<<l_occ;
 
-		vector<vi>::iterator itr = vv.begin();
-		for (; itr != vv.end(); ++itr){
-			// cout<<itr->size()<<" ";
-			vi::iterator itr2 = itr->begin();
-			for (; itr2!= itr->end();itr2++){
-				cout<<*itr2<<" ";
-			}
-			cout<<endl;
-		}
 	}
 	return 0;
 }

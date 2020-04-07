@@ -40,54 +40,56 @@ void fastIO(){
 	#ifndef ONLINE_JUDGE	
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
-	freopen("output.txt", "w", stderr);
 	#endif
 }
-const int N = 1e6 + 1;
-int done[N]; // we need from [1 to 1e6]
+
 int32_t main(){
 	fastIO();
+	/** code here */
 	w(t){
-		int n;
-		cin>>n;
-		if(n==1){
-			cout<<n<<endl;
-			cout<<1<<endl;
-			continue;
-		}
-		cout<<n/2<<endl;
-		memset(done, 0, sizeof(done));
-		vector<vi> vv;
-		for (int i = 2; i <= n; i+=2){
-			vi v;
-			if(i==2){
-				done[1] = 1;
-				v.pb(1);
-			}
-			done[i] = 1;
-			v.pb(i);
-			vv.pb(v);	
-		}
-
-		for (int i = 3; i <= n; ++i){
-			int idx = 0;
-			for (int j = i; j <= n; j+=i) {
-				if(!done[j]) {
-					vv[idx].pb(j);
-					done[j] = 1;
+		int n; cin>>n;
+		string s;
+		cin>>s;
+		int b_cs = 0; // cs -current score
+		int a_cs = 0;
+		int b_rs = n;
+		int a_rs = n; // rs - remaining shots
+		bool gotcha = false;
+		for (int i = 0; i < 2*n; ++i){
+			int value = s[i] - '0';
+			if(i&1){
+				// B team chance
+				if(a_cs + a_rs <= b_cs){
+					if(value == 1){
+						cout<<i+1<<endl;
+					}else{
+						cout<<i<<endl;
+					}
+					gotcha = true;
+					break;
+				}else{
+					b_cs += value;
+					b_rs -= 1;
 				}
-				idx++;
+			}else{
+				// A team chance
+				if(b_cs + b_rs <= a_cs){
+					if((value == 1)){
+						cout<<i+1<<endl;
+					}else{
+						cout<<i<<endl;
+					}
+					gotcha = true;
+					break;
+				}else{
+					a_cs += value;
+					a_rs -= 1; 	
+				}
 			}
 		}
 
-		vector<vi>::iterator itr = vv.begin();
-		for (; itr != vv.end(); ++itr){
-			// cout<<itr->size()<<" ";
-			vi::iterator itr2 = itr->begin();
-			for (; itr2!= itr->end();itr2++){
-				cout<<*itr2<<" ";
-			}
-			cout<<endl;
+		if(!gotcha){
+			cout<<2*n<<endl;
 		}
 	}
 	return 0;
