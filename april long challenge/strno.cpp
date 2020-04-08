@@ -45,7 +45,7 @@ void fastIO(){
 }
 
 
-const int N = 1e5;
+const int N = 1e6;
 int primes[N];
 
 void SieveOfEratosthenes() { 
@@ -65,8 +65,7 @@ void SieveOfEratosthenes() {
     	if(prime[i]){
     		primes[j++] = i;
     	}
-    }
-    
+    }    
 }
 
 int factors_count(int n){
@@ -82,13 +81,15 @@ int factors_count(int n){
 				}else{
 					break;
 				}
-
 			}
 		}else{
 			break;
 		}
 	}
-
+	// culprit - gotcha
+	if(n>2){
+		count++;
+	}
 	return count;
 }	
 
@@ -109,6 +110,7 @@ int32_t main() {
 			}
 			continue;
 		}
+		
 		int number_of_factors = factors_count(x);
 		if(number_of_factors < k )
 			cout<<0<<endl;

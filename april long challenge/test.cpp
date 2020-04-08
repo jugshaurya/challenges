@@ -43,38 +43,38 @@ void fastIO(){
 	#endif
 }
 
-const int N = 1e5;
+const int N = 2;
 int arr[N];
-int preMul[N+1];
+int pre[N+1];
+
 int32_t main(){
 	fastIO();
-	/** code here */
 	w(t){
 		int n;
 		cin>>n;
-
-		preMul[0] = 1;
+		printArray(arr,N);
 		for (int i = 0; i < n; ++i){
 			cin>>arr[i];
-			preMul[i+1] = preMul[i] * arr[i];
+			cout<<arr[i];
+		}
+
+		pre[0] = 1;
+		for (int i = 0; i < n; ++i){
+			pre[i+1] = (pre[i]*arr[i])%100;
+			cout<<pre[i+1]<<" ";
 		}
 
 		int count = 0;
 		for (int i = 0; i < n; ++i){
 			for (int j = i; j < n; ++j){
 				int prod = 1;
-				if(preMul[i]==0){
-					prod = 0;
+				if(i==j){
+					prod = arr[i];
 				}else{
-					prod = preMul[j+1] / preMul[i];
-					prod = prod % 100;
-				}
-				// for(int k=i;k<=j;k++){
-				// 	prod*= arr[k];
-				// 	prod = prod % 100;
-				// }
+					prod = pre[j+1]/pre[i];
+				}	
 				// cout<<i<<" "<<j<<" "<<prod<<endl;
-				if(abs(prod)%4!=2){
+				if(prod%4!=2){
 					count++;
 				}
 			}
