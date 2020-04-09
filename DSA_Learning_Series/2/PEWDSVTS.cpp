@@ -11,8 +11,8 @@ using namespace std;
 #define pii             pair<int,int>
 #define vi              vector<int>
 #define mii             map<int,int>
-#define pqb             priority_queue<int>
-#define pqs             priority_queue<int,vi,greater<int> >
+#define pqmax             priority_queue<int>
+#define pqmin             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007 // 1e9+7
@@ -26,6 +26,14 @@ mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
+void printArray(int* arr, int n){
+	cout<<"=========="<<endl;
+	for (int i = 0; i < n; ++i){
+		cout<<arr[i]<<" ";
+	}
+	cout<<"=========="<<endl;
+}
+
 void fastIO(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// for kickstart comment last four lines
@@ -35,46 +43,54 @@ void fastIO(){
 	#endif
 }
 
+const int N = 1e5 + 1;
+int C[N];
+
 int32_t main(){
 	fastIO();
-	int n;
-	cin>>n;
 
-	/* for max-depth and max-number of symbols */
-	/* for index and number_of_symbol start pos */
 
-	stack<int> s;
-	// s.pop(), s.top(), s.push(ele), s.empty(), s.size()
-	// 1 === (
-	// 2 === )
-	int depth = 0;
-	int maxDepth = 0;
-	int idx = 0;
-	int data;
-	int start = 0;
-	for (int i = 0; i < n; ++i){
-		cin>>data;
-		if(data == 1) {
-			s.push(data);
-			depth += 1;
-			if(depth > maxDepth){
-				maxDepth = depth;
-				idx = i+1 ;
-			}
-		} else {
-			depth = 0;
-			if(!s.empty()){
-				s.pop();
-			}else{
-				return 0; // will never occur as expression is given well-bracketed
-			}
+	/** code here */
+	w(t){
+		int n,a,b,x,y,z;
+		cin >> n >> a >> b >> x >> y >> z;
+		for (int i = 0; i < n; ++i){
+			cin>>C[i];
 		}
+
+		int b_users = b;
+		int a_users = a;
+		int day = 0;
+		while(b_users + y < z){
+			day++;
+			b_users += y;
+			a_users += x;
+
+		}
+
+		pqmax heap;
+		for (int i = 0; i < n; ++i){
+			heap.push(C[i]);
+		}
+
+		int count = 0;
+		while(a_users < z && !heap.empty()){
+			int max_contrib = heap.top();
+			heap.pop();
+			if(max_contrib > 1){
+				heap.push(max_contrib/2);
+			}
+			a_users += max_contrib;
+			count += 1;
+		}
+
+		if(a_users>=z){
+			cout<<count<<endl;
+		}else{
+			cout<<"RIP"<<endl;
+		}
+
+
 	}
-
-	cout<<"depth "<<maxDepth<<endl;
-	cout<<"idx "<<idx<<endl;
-	// cout<<"max_number_of_symbols "<<max_number_of_symbols<<endl;
-	// cout<<"pos "<<pos<<endl;
-
 	return 0;
 }
