@@ -43,45 +43,53 @@ void fastIO(){
 	freopen("output.txt", "w", stdout);
 	#endif
 }
+
 const int N = 1e6 + 1;
 int arr[N];
 
-piii findMinEle_focc_locc(arr,n){
+// O(n) : Time complexity
 
-	piii t;
-	int f_occ = 0;
-	int l_occ = -1;
-	int minEle = 1e9;
-	for (int i = 0; i < n; ++i){
-		if(arr[i]< minEle){
+pii getTokensForSubarrayAndReduceTokens(int* arr, int n){
+	// find min from the back
+	int minIndex = n-1;
+	int minEle = arr[n-1];
+	for (int i = n-2; i >= 0; --i){
+		if(arr[i] < minEle){
 			minEle = arr[i];
-			f_occ = i;
+			minIndex = i;
 		}
-		if(arr[i]== minEle){
-			l_occ = i;
+
+		if(arr[i] == 0){
+			minEle = 0;
+			minIndex = i;
 		}
 	}
 
-	return t(minEle, mp(f_occ, l_occ));
-} 
+	for (int i = n; i >= 0; --i){
+		arr[i] -= minEle;
+	}
+
+	return mp(minIndex, minEle);
+}
 
 int32_t main(){
 	fastIO();
-	/** code here */
 	w(t){
-		int n;cin>>n;
+		int n; cin >> n;
 		for (int i = 0; i < n; ++i){
-			/* code */
 			cin>>arr[i];
 		}
 
-		int total_tokens = 0;
-		piii t = findMinEle_focc_locc(arr,n);
-		int minEle = t->first ;
-		int f_occ = t->second->first ;
-		int l_occ = t->second->second ;
-		cout<<minEle<<f_occ<<l_occ;
-
+		int size = n; 
+		int number_of_tokens = 0 ;
+		while(size > 0 ) {
+			pii result = getTokensForSubarrayAndReduceTokens(arr, size);
+			int minIndex = result.first;
+			int minEle = result.second;
+			number_of_tokens += (size) * minEle;
+			size = minIndex;
+		}
+		cout<<number_of_tokens<<endl;
 	}
 	return 0;
 }

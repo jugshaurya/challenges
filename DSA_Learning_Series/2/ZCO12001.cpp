@@ -52,29 +52,40 @@ int32_t main(){
 	int idx = 0;
 	int data;
 	int start = 0;
+	int max_number_of_symbols = 0;
+	int number_of_symbols = 0;
+	int pos = 0;
 	for (int i = 0; i < n; ++i){
 		cin>>data;
+		number_of_symbols += 1;
 		if(data == 1) {
 			s.push(data);
 			depth += 1;
 			if(depth > maxDepth){
 				maxDepth = depth;
-				idx = i+1 ;
+				idx = i+1;
 			}
 		} else {
 			depth = 0;
 			if(!s.empty()){
 				s.pop();
+				if(s.empty()){
+					if(number_of_symbols > max_number_of_symbols){
+						max_number_of_symbols = number_of_symbols;
+						pos = i-max_number_of_symbols + 2;
+					}
+					number_of_symbols = 0;
+				}
 			}else{
 				return 0; // will never occur as expression is given well-bracketed
 			}
 		}
 	}
 
-	cout<<"depth "<<maxDepth<<endl;
-	cout<<"idx "<<idx<<endl;
-	// cout<<"max_number_of_symbols "<<max_number_of_symbols<<endl;
-	// cout<<"pos "<<pos<<endl;
+	cout<<maxDepth;
+	cout<<" "<<idx;
+	cout<<" "<<max_number_of_symbols;
+	cout<<" "<<pos<<endl;
 
 	return 0;
 }

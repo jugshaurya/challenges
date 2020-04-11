@@ -11,8 +11,8 @@ using namespace std;
 #define pii             pair<int,int>
 #define vi              vector<int>
 #define mii             map<int,int>
-#define pqb             priority_queue<int>
-#define pqs             priority_queue<int,vi,greater<int> >
+#define pqmax            priority_queue<int>
+#define pqmin             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007 // 1e9+7
@@ -45,48 +45,32 @@ void fastIO(){
 
 int32_t main(){
 	fastIO();
-	/** code here */
-	w(t){
-		int n; cin>>n;
-		string s;
-		cin>>s;
-		int a_cs = 0;
-		int a_rs = n; // rs - remaining shots
-		int b_cs = 0; // cs - current score
-		int b_rs = n;
-		bool gotcha = false; // to state the draw
+	vi v;
+	vi w;
 
-		//  if i am B
-		// c_goals(A) > c_goals(B) + r_goals(B) , i loose
-		// c_goals(B) > c_goals(A) + r_goals(A) , i win
-		// else i can't give the verdict.
+	vector<pii> vpii;
+	vector<int, pii> viii;
+	int n, v, w; cin>>n>>v>>w;
 
-		for (int i = 0; i < 2*n; ++i){
-			int value = s[i] - '0';
-			if(i&1) {
-				// B team chance
-				b_cs += value;
-				b_rs -= 1;
-				if(a_cs > b_cs + b_rs || b_cs > a_cs + a_rs){
-					cout<<i+1<<endl;
-					gotcha = true;
-					break;
-				}
-			}else{
-				// A team chance
-				a_cs += value;
-				a_rs -= 1;
-				if(b_cs > a_cs + a_rs || a_cs > b_cs + b_rs){
-					cout<<i+1<<endl;
-					gotcha = true;
-					break;
-				}
-			}
-		}
-
-		if(!gotcha){
-			cout<<2*n<<endl;
-		}
+	int s,e;
+	for (int i = 0; i < n; ++i){
+		cin>>s>>e;
+		vpii.pb(mp(s,e));
 	}
+
+	int data;
+	for (int i = 0; i < v; ++i){
+		cin>>data;
+		v.pb(data);
+		 
+	}
+
+	for (int i = 0; i < w; ++i){
+		cin>>data;
+		w.pb(data);
+	}
+
+	sort(v, v+v.size())
+	sort(w, w+w.size())
 	return 0;
 }

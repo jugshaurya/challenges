@@ -49,12 +49,13 @@ int32_t main(){
 	w(t){
 		int n; cin>>n;
 		int s,v,p ;
-		int max_profit = -1e9;
+		int max_profit = 0;
 		for (int i = 0; i < n; ++i){
-			cin>>s>>v>>p;
-			int person_count = p/(s+1);
-			max_profit = max(max_profit, person_count*v);
+			cin>>s>>p>>v;
+			int person_count = p / (s+1);
+			max_profit = max(max_profit, person_count * v);
 		}
+		
 		cout<<max_profit<<endl;
 	}
 	return 0;
