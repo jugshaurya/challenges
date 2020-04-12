@@ -22,11 +22,11 @@ def main():
         n = int(input())
         if(n == 1):
             print(n)
-            print(1)
+            print(1, 1, sep=" ")
             continue
 
         done = [0 for i in range(n+1)]
-        setArray = [set() for i in range((n)//2)]
+        setArray = [set() for i in range(n//2)]
         result = []
         idx = -1
         for i in range(2, n+1, 2):
@@ -49,11 +49,7 @@ def main():
                 if(done[j] == 0):
                     j_factors_set = set(factors[j])
                     not_allowed_set = setArray[idx]
-                    interSection = j_factors_set.intersection(
-                        not_allowed_set)
-                    # print(idx, j, interSection, not_allowed_set,
-                    #       j_factors_set, end=" ")
-
+                    interSection = j_factors_set.intersection(not_allowed_set)
                     if(len(interSection) == 0):
                         result[idx].append(j)
                         done[j] = 1
@@ -75,9 +71,9 @@ def main():
 
         print(len(result))
         for sub in result:
-        	print(len(sub),end=" ")
-        	for ele in sub:
-        		print(ele, end=" ")
-        	print()
+            print(len(sub),end=" ")
+            for ele in sub:
+                print(ele, end=" ")
+            print()
 
 main()

@@ -11,8 +11,8 @@ using namespace std;
 #define pii             pair<int,int>
 #define vi              vector<int>
 #define mii             map<int,int>
-#define pqb             priority_queue<int>
-#define pqs             priority_queue<int,vi,greater<int> >
+#define pqmax            priority_queue<int>
+#define pqmin             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007 // 1e9+7
@@ -43,45 +43,26 @@ void fastIO(){
 	#endif
 }
 
-const int N = 2;
-int arr[N];
-int pre[N+1];
+void printVector(const std::vector<int> &n)
+{
 
+    for (int j = 0; j < n.size(); j++ )
+    {
+        cout << "n[" << j << "] = " << n[j] << endl;
+    }
+
+}
 int32_t main(){
 	fastIO();
-	w(t){
-		int n;
-		cin>>n;
-		printArray(arr,N);
-		for (int i = 0; i < n; ++i){
-			cin>>arr[i];
-			cout<<arr[i];
-		}
+	/** code here */
 
-		pre[0] = 1;
-		for (int i = 0; i < n; ++i){
-			pre[i+1] = (pre[i]*arr[i])%100;
-			cout<<pre[i+1]<<" ";
-		}
+    vector<int> n = {1,2,3,4,5};
+	vector < vi > factors;
+	factors.pb(n);
 
-		int count = 0;
-		for (int i = 0; i < n; ++i){
-			for (int j = i; j < n; ++j){
-				int prod = 1;
-				if(i==j){
-					prod = arr[i];
-				}else{
-					prod = pre[j+1]/pre[i];
-				}	
-				// cout<<i<<" "<<j<<" "<<prod<<endl;
-				if(prod%4!=2){
-					count++;
-				}
-			}
-		}
 
-		cout<<count<<endl;
-
-	}
+    for (int j = 0; j < factors.size(); j++ ){
+    	printVector(factors[j]);
+    }
 	return 0;
 }

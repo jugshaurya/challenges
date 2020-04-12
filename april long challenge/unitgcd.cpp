@@ -9,10 +9,9 @@ using namespace std;
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
-#define vi              vector<int>
 #define mii             map<int,int>
 #define pqb             priority_queue<int>
-#define pqs             priority_queue<int,vi,greater<int> >
+#define pqs             priority_queue<int,vector<int>,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007 // 1e9+7
@@ -22,17 +21,6 @@ using namespace std;
 #define w(t)            int t; cin>>t; while(t--)
 #define pw(b,p)         pow(b,p) + 0.1
 #define endl			"\n"
-mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
-
-void printArray(int* arr, int n){
-	cout<<"=========="<<endl;
-	for (int i = 0; i < n; ++i){
-		cout<<arr[i]<<" ";
-	}
-	cout<<"=========="<<endl;
-}
 
 void fastIO(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -43,54 +31,123 @@ void fastIO(){
 	freopen("output.txt", "w", stderr);
 	#endif
 }
-const int N = 1e6 + 1;
-int done[N]; // we need from [1 to 1e6]
+
+const int N = 1e6+1;
+const int sqrtN = sqrt(N);
+vector<int> factors[N];
+
+void sieveToGetFactorsArray(){
+
+	for (int i = 2; i < sqrtN; i++){
+		if(factors[i].size() == 0){
+			for (int j = i; j < N; j+=i){
+				factors[j].pb(i);
+			}
+		}
+	}
+}
+
 
 int32_t main(){
 	fastIO();
+	for (int i = 0; i < sqrtN; ++i){
+		vector<int> v;
+		factors[i] = v;
+	}
+	sieveToGetFactorsArray();
+
+
 	w(t){
-		int n;
-		cin>>n;
+		int n; cin>>n;
 		if(n==1){
-			cout<<n<<endl;
 			cout<<1<<endl;
+			cout<<1<<" "<<1<<endl;
 			continue;
 		}
 
-		memset(done, 0, sizeof(done));
-		vector<vi> vv;
-		for (int i = 2; i <= n; i+=2){
-			vi v;
+		int done[N];
+		memset(done, 0, N);
+		set<int> setArray[n/2];
+		vector< vector<int> > result;
+		int idx = -1;
+		
+		for (int i = 2; i < n+1; i+=2){
+			idx+=1;
 			if(i==2){
-				done[1] = 1;
+				done[1] = done[2] = 1;
+				vector<int> v;
 				v.pb(1);
-			}
-			done[i] = 1;
-			v.pb(i);
-			vv.pb(v);	
-		}
-
-		for (int i = 3; i <= n; ++i){
-			int idx = 0;
-			for (int j = i; j <= n; j+=i) {
-				if(!done[j]) {
-					vv[idx].pb(j);
-					done[j] = 1;
+				v.pb(2);
+				result.pb(v);
+				set<int> s;
+				s.insert(2);
+				setArray[idx] = s;
+			}else{
+				done[i] = 1;
+				vector<int> v;
+				v.pb(i);
+				result.pb(v);
+				set<int> s;
+				for (auto x: factors[i]){
+					s.insert(x);
 				}
-				idx++;
+				setArray[idx] = s;
 			}
 		}
 
-		cout<<vv.size()<<endl;
-		vector<vi>::iterator itr = vv.begin();
-		for (; itr != vv.end(); ++itr){
-			// cout<<itr->size()<<" ";
-			vi::iterator itr2 = itr->begin();
-			for (; itr2!= itr->end();itr2++){
-				cout<<*itr2<<" ";
+		for (int i = 3; i < n+1; i+=2){
+			idx = 0;
+			int j = i;
+			while(j<n+1){
+				if(done[j]==0){
+					set<int> j_factor_set;
+					for(auto x : factors[j]){
+						j_factor_set.insert(x);
+					}
+					set<int> not_allowed_set = setArray[idx];
+					vector<int> aloha(j_factor_set.size() + not_allowed_set.size());
+					vector<int>::iterator it, st;
+					it = set_intersection(j_factor_set.begin(), 
+											j_factor_set.end(), 
+											not_allowed_set.begin(), 
+											not_allowed_set.end(), 
+											aloha.begin()
+											);
+					int size = 0;
+					for (st = aloha.begin(); st != it; ++st) 
+						size += 1;
+					  
+					if(size == 0){
+						result[idx].pb(j);
+						done[j] = 1;
+						idx+=1;
+						for (auto ele : j_factor_set){
+							setArray[idx-1].insert(ele);
+						}
+					}else{
+						// i can not put in here
+                        if(idx == 0){
+                            done[j] = 1;
+                            setArray[idx].insert(j);
+                            result[0].pb(j);
+                            idx += 1;
+                        }else{
+                            idx += 1;
+                            continue;
+                        }
+					}
+				}
+			j+=i;
+			}
+		}
+
+		cout<<n/2<<endl;
+		for (int i = 0; i < result.size(); ++i){
+			cout<<result[i].size()<<" ";
+			for(auto ell : result[i]){
+				cout<<ell<<" ";
 			}
 			cout<<endl;
 		}
 	}
-	return 0;
 }
