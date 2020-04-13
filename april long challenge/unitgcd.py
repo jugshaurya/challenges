@@ -1,4 +1,4 @@
-from math import sqrt, floor
+from math import sqrt, floor, gcd
 
 N = 1000000
 factors = [[] for i in range(0, N + 1)]
@@ -49,8 +49,12 @@ def main():
                 if(done[j] == 0):
                     j_factors_set = set(factors[j])
                     not_allowed_set = setArray[idx]
-                    interSection = j_factors_set.intersection(not_allowed_set)
-                    if(len(interSection) == 0):
+                    product = 1
+                    for ele in not_allowed_set:
+                        product *= ele 
+                    # interSection = j_factors_set.intersection(not_allowed_set)
+                    intersection = gcd(j, product) - 1
+                    if(interSection == 0):
                         result[idx].append(j)
                         done[j] = 1
                         idx += 1

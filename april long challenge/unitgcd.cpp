@@ -116,7 +116,13 @@ int32_t main(){
 					int size = 0;
 					for (st = aloha.begin(); st != it; ++st) 
 						size += 1;
-					  
+					int product = 1;
+					set <int>:: iterator itr = j_factor_set.begin(); 
+					for (; itr != j_factor_set.end(); ++itr){
+						product *= (*itr);
+					}
+					// cout<<product<<" afagdg"<< j<< product<<endl;;
+					// auto size = __gcd(j, product);
 					if(size == 0){
 						result[idx].pb(j);
 						done[j] = 1;
