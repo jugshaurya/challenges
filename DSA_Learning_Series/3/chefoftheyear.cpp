@@ -1,3 +1,4 @@
+// https://www.codechef.com/LRNDSA03/problems/CVOTE
 #include<bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
@@ -9,9 +10,10 @@ using namespace std;
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
+#define vi              vector<int>
 #define mii             map<int,int>
-#define pqb             priority_queue<int>
-#define pqs             priority_queue<int,vector<int>,greater<int> >
+#define pqmax            priority_queue<int>
+#define pqmin             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
 #define mod             1000000007 // 1e9+7
@@ -21,6 +23,17 @@ using namespace std;
 #define w(t)            int t; cin>>t; while(t--)
 #define pw(b,p)         pow(b,p) + 0.1
 #define endl			"\n"
+mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+
+void printArray(int* arr, int n){
+	cout<<"=========="<<endl;
+	for (int i = 0; i < n; ++i){
+		cout<<arr[i]<<" ";
+	}
+	cout<<"=========="<<endl;
+}
 
 void fastIO(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
@@ -28,38 +41,36 @@ void fastIO(){
 	#ifndef ONLINE_JUDGE	
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
-	freopen("output.txt", "w", stderr);
 	#endif
 }
 
-const int N = 1e6+1;
-
 int32_t main(){
 	fastIO();
-	w(t){
-		int n; cin>>n;
-		if(n==1){
-			cout<<1<<endl;
-			cout<<1<<" "<<1<<endl;
-			continue;
-		}
+	/** code here */
+	int n;
+	int m;
+	cin>>n>>m;
 
-		if(n==2){
-			cout<<1<<endl;
-			cout<<2<<" "<<1<<" "<< 2 <<endl;
-			continue;
-			
-		}
+	map<string, string > chefs;
+	map<string, int> votes;
 
-		cout<<n/2<<endl;
-		cout<<3<<" "<<1<<" "<< 2<<" " <<3<<endl;
-		for (int i = 4; i < n;){
-			cout<<2<<" "<<i<<" "<<i+1<<endl;
-			i+=2;
-		}
-		if(n%2==0){
-			cout<<1<<" "<<n<<endl;
-		}
+	string data;
+	string data2;
+	for (int i = 0; i < n; ++i){
+		cin>>data;
+		cin>>data2;
+		chefs[data] = data2;
 	}
 
+	for (int i = 0; i < m; ++i){
+		cin>>data;
+		if(votes.count(data) == 1)
+			votes[data] += 1;
+		else
+			votes[data] = 1;
+	}
+
+	
+
+	return 0;
 }

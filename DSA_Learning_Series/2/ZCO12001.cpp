@@ -1,3 +1,5 @@
+// Bracket Match
+
 #include<bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
@@ -40,52 +42,46 @@ int32_t main(){
 	int n;
 	cin>>n;
 
-	/* for max-depth and max-number of symbols */
-	/* for index and number_of_symbol start pos */
-
-	stack<int> s;
-	// s.pop(), s.top(), s.push(ele), s.empty(), s.size()
-	// 1 === (
-	// 2 === )
-	int depth = 0;
-	int maxDepth = 0;
-	int idx = 0;
+	// first int for brace and secondint for index
+	stack<pii> myStack;
 	int data;
-	int start = 0;
-	int max_number_of_symbols = 0;
+	int depth = 0;
+	int maxDepth = -inf;
+	int possibleMaxDepthStartingIndex = 0;
+	int confirmedMaxDepthStartingIndex = 0;
+
 	int number_of_symbols = 0;
-	int pos = 0;
+	int max_number_of_symbols = -inf;
+	int start_max_number_of_symbols = 0;
 	for (int i = 0; i < n; ++i){
 		cin>>data;
-		number_of_symbols += 1;
-		if(data == 1) {
-			s.push(data);
+		if(data == 1){
+			myStack.push({data, i+1});
+			depth = 0;
+		}else{
+			
+			/* depth logic */
+			// since s is balanced stack cant be empty!
 			depth += 1;
+			if(depth == 1){
+				possibleMaxDepthStartingIndex = myStack.top().second;
+			}
 			if(depth > maxDepth){
 				maxDepth = depth;
-				idx = i+1;
+				confirmedMaxDepthStartingIndex  = possibleMaxDepthStartingIndex;
 			}
-		} else {
-			depth = 0;
-			if(!s.empty()){
-				s.pop();
-				if(s.empty()){
-					if(number_of_symbols > max_number_of_symbols){
-						max_number_of_symbols = number_of_symbols;
-						pos = i-max_number_of_symbols + 2;
-					}
-					number_of_symbols = 0;
-				}
-			}else{
-				return 0; // will never occur as expression is given well-bracketed
+
+			/* number of symbol logic */
+			number_of_symbols = (i+1) - myStack.top().second + 1;
+			if(number_of_symbols > max_number_of_symbols){
+				max_number_of_symbols = number_of_symbols;	
+				start_max_number_of_symbols = myStack.top().second;		
 			}
+			myStack.pop();
 		}
 	}
 
-	cout<<maxDepth;
-	cout<<" "<<idx;
-	cout<<" "<<max_number_of_symbols;
-	cout<<" "<<pos<<endl;
-
+	cout<<maxDepth<<" "<<confirmedMaxDepthStartingIndex<<" ";
+	cout<<max_number_of_symbols<<" "<<start_max_number_of_symbols<<endl;
 	return 0;
 }
