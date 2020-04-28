@@ -47,7 +47,7 @@ map<int, bool> m;
 int32_t main() {
 	fastIO();
 	/** code here */
-	for (int i = 0; i < 1001; ++i){
+	for (int i = 0; i < 100001; ++i){
 		m[i*i] = true;
 	}
 
@@ -55,7 +55,7 @@ int32_t main() {
 		int n;cin>>n;
 		// for 50 points
 		bool gotcha = false;
-		for (int i = 1; i < 1001; ++i){
+		for (int i = 1; i < 100001; ++i){
 			if(m.count(n + i*i)){
 				cout<<i*i<<endl;
 				gotcha = true;

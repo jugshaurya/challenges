@@ -1,4 +1,3 @@
-
 #include<bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
@@ -36,25 +35,23 @@ void fastIO(){
 	#endif
 }
 
-int32_t main(){
-	fastIO();
-	vector<int> semi; 
-	map<int, bool > ps;
+vi getSemiPrimes(){
+	vi semi; 
 	for (int i = 2; i <= 201; ++i){
-		int count = 0;
+		bool gotcha = true;
+		int count = 0; 
 		int n = i;
 		for (int j = 2; j <= sqrt(n); j+=1){
-			if(n%j==0){
-				n/=j;
-				if(n%j!=0){
-					count++;
-				}
-				while(n%j==0){
-					n/=j;
+			if(n%j==0) {
+				n /= j;
+				count += 1;
+				if(n%j==0){
+					gotcha = false;
+					break;	
 				}
 			}
 		}
-
+		if(!gotcha) continue;
 		if(n>1){
 			count++;
 		}
@@ -64,26 +61,27 @@ int32_t main(){
 		}
 	}
 
+	return semi;
+}
 
+int32_t main(){
+	fastIO();
+	// find all the semi primes number between 1 and N
+	// then find all possible sums that can be generated
+	// and later check if n exist or not in this psums.
 
+	vi semi = getSemiPrimes();
+	map<int, bool > psums;
 	for (int i = 0; i < semi.size(); ++i){
 		for (int j = 0; j < semi.size(); ++j){
-			ps[semi[i] + semi[j]] = true;
+			int sum = semi[i] + semi[j];
+			psums[sum] = true;
 		}
 	}
 
 	w(t){
-
 		int n; cin>>n;
-		// find all the semi primes number between
-		// then make an array with all are possible sums they acn generate
-		// and later checkif n exist or not
-
-
-		// find all the semi primes number should have only 2 factors excluding 1
-		//  also N = 200 only
-
-		if(ps.count(n)==1){
+		if(psums.count(n)==1){
 			cout<<"YES"<<endl;
 		}else{
 			cout<<"NO"<<endl;
@@ -91,12 +89,3 @@ int32_t main(){
 	}
 	return 0;
 }
-
-
-
-
-
-
-
-
-
