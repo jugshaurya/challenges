@@ -26,13 +26,17 @@ mt19937                 rng(chrono::steady_clock::now().time_since_epoch().count
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
-const int N = 100001;
-int kprimeSieve[N];
-int prefixSumWithK[N+1][5];
-void fillSieve(){
+const int N = 100000+1;
+const int K = 6;
 
-	for (int i = 2; i <= sqrt(N); ++i){
-		if(kprimeSieve[i]==0){
+int kprimeSieve[N];
+int prefixSumWithK[N+1][K];
+
+void fillSieve(){
+	kprimeSieve[0] = 0;
+	kprimeSieve[1] = 0;
+	for (int i = 2; i <N; ++i){
+		if(kprimeSieve[i] == 0) {
 			for (int j = i; j < N; j+=i){
 				kprimeSieve[j] += 1;
 			}			
@@ -40,27 +44,16 @@ void fillSieve(){
 	}
 
 	for (int i = 2; i < N+1; ++i){
-		for (int j = 0; j < 5; ++j){
-			if(j== kprimeSieve[i]){
+		for (int j = 1; j < K; ++j) {
+			if(j == kprimeSieve[i]){
 				prefixSumWithK[i][j] = prefixSumWithK[i-1][j] + 1;
-
 			}else{
 				prefixSumWithK[i][j] = prefixSumWithK[i-1][j];
-
 			}
 		}
 	}
-
-	// for (int i = 2; i < 30; ++i){
-	// 	cout<<kprimeSieve[i]<<" ";
-	// 	for (int j = 0; j < 5; ++j){
-	// 		cout<< prefixSumWithK[i][j]<<" ";
-	// 	}
-	// 	cout<<endl;
-	// }
-
-
 }
+
 void fastIO(){
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	// for kickstart comment last four lines
@@ -81,3 +74,4 @@ int32_t main(){
 	}
 	return 0;
 }
+

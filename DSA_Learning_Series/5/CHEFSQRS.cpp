@@ -43,27 +43,62 @@ void fastIO(){
 	#endif
 }
 
+float squareRoot(int number, int precision) { 
+    int start = 0, end = number; 
+    int mid; 
+    float ans; 
+    while (start <= end) { 
+        mid = (start + end) / 2; 
+        if (mid * mid == number) { 
+            ans = mid; 
+            break; 
+        } 
+  
+        if (mid * mid < number) { 
+            start = mid + 1; 
+            ans = mid; 
+        } 
+        else { 
+            end = mid - 1; 
+        } 
+    } 
+  
+    float increment = 0.1; 
+    for (int i = 0; i < precision; i++) { 
+        while (ans * ans <= number) { 
+            ans += increment; 
+        } 
+        ans = ans - increment; 
+        increment = increment / 10; 
+    } 
+    return ans; 
+} 
+
 map<int, bool> m;
 int32_t main() {
+	const int max = 10001;
+
 	fastIO();
 	/** code here */
-	for (int i = 0; i < 100001; ++i){
-		m[i*i] = true;
+	vi psq;
+	for (int i = 1; i <= max; ++i){
+		psq.pb(i*i);
 	}
 
 	w(t){
-		int n;cin>>n;
-		// for 50 points
+		int n; cin>>n;
 		bool gotcha = false;
-		for (int i = 1; i < 100001; ++i){
-			if(m.count(n + i*i)){
-				cout<<i*i<<endl;
+		for (int i = 1; i <= max; ++i){
+			int lhs = n + psq[i-1];
+			int log_lhs = (int)(squareRoot(lhs,2));
+			if(log_lhs*log_lhs == lhs){
+				cout<<psq[i-1]<<endl;
 				gotcha = true;
 				break;
-			}
+			} 
 		}
-
-		if(!gotcha) cout<<-1<<endl;
+		
+		if(!gotcha)	cout<<-1<<endl;
 	}
 	return 0;
 }
